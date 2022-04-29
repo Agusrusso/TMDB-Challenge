@@ -19,7 +19,7 @@ class MovieTableViewCell: UITableViewCell {
     private lazy var placehoderImage: UIImageView = {
         let aImage = UIImageView()
         aImage.translatesAutoresizingMaskIntoConstraints = false
-        aImage.layer.cornerRadius = 30
+        aImage.layer.cornerRadius = 5
         aImage.backgroundColor = .lightGray                    //VER CAMBIAR EL COLOR!!!!!
         aImage.image = UIImage(named: "short")
         return aImage
@@ -51,13 +51,14 @@ class MovieTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             // Image constraints
             
-            placehoderImage.heightAnchor.constraint(equalToConstant: 40),
+            placehoderImage.heightAnchor.constraint(equalToConstant: 20),
             placehoderImage.widthAnchor.constraint(equalToConstant: 80),
             
             placehoderImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             placehoderImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             placehoderImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             
+            // Name constraints
             
             movieName.leadingAnchor.constraint(equalTo: placehoderImage.trailingAnchor, constant: 16),
             movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
