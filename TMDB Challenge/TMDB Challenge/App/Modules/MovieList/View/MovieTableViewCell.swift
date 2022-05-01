@@ -20,7 +20,7 @@ class MovieTableViewCell: UITableViewCell {
         let aImage = UIImageView()
         aImage.translatesAutoresizingMaskIntoConstraints = false
         aImage.layer.cornerRadius = 5
-        aImage.backgroundColor = .lightGray                    //VER CAMBIAR EL COLOR!!!!!
+        aImage.backgroundColor = .white
         aImage.image = UIImage(named: "short")
         return aImage
     }()
@@ -28,7 +28,7 @@ class MovieTableViewCell: UITableViewCell {
     private lazy var movieName: UILabel = {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
-        aLabel.textColor = .darkGray                   //VER CAMBIAR EL COLOR!!!!!
+        aLabel.textColor = .darkGray
         return aLabel
     }()
     

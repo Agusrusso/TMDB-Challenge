@@ -8,6 +8,8 @@
 import Foundation
 
 struct Movie: Codable {
-    let name: String
-    let url: String
+    let title: String
+    let posterPath: String
+    let id: Int
+
 }

@@ -9,9 +9,10 @@ import Foundation
 
 class MovieDetailService {
 
-    func getMovie(urlMovie: String, onComplete: @escaping (MovieDetail) -> Void, onError: @escaping () -> Void) {
+    func getMovie(id: Int, urlMovie: String, onComplete: @escaping (MovieDetail) -> Void, onError: @escaping () -> Void) {
 
-        ApiManager.shared.get(url: urlMovie) { response in
+        let aURL = Constants().movieURL.replacingOccurrences(of:"ID_MOVIE", with: "\(id)")
+        ApiManager.shared.get(url: aURL) { response in
 
         switch response {
         case .success(let data):

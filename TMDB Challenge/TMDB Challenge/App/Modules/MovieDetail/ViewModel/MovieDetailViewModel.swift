@@ -12,8 +12,10 @@ class MovieDetailViewModel {
     private var delegate: MovieDetailDelegate
     private var service: MovieDetailService
     private var movieUrl: String
+    private var movieId: Int
     
-    init(movieUrl: String, service: MovieDetailService, delegate: MovieDetailDelegate) {
+    init(id: Int, movieUrl: String, service: MovieDetailService, delegate: MovieDetailDelegate) {
+        self.movieId = id
         self.movieUrl = movieUrl
         self.service = service
         self.delegate = delegate
@@ -21,7 +23,7 @@ class MovieDetailViewModel {
     
     func getMovie(){
         self.delegate.showLoading()
-        service.getMovie(urlMovie: movieUrl) { movie in
+        service.getMovie(id: movieId, urlMovie: movieUrl) { movie in
             self.delegate.movieData(movie: movie)
             self.delegate.hideLoading()
         } onError: {

@@ -17,11 +17,15 @@ protocol MovieDetailDelegate {
 class MovieDetailViewController: UIViewController {
 
     var movieUrl: String = ""
+    var movieId: Int = 0
+    var popularity: Double = 0
     
     private var imagen: String? {
         didSet {
-            if let url = URL(string: imagen ?? "") {
+            guard let stringImage = imagen else { return }
+            if let url = URL(string: "https://image.tmdb.org/t/p/w500/" + stringImage) {
                 movieImage.load(url: url)
+                
             }
         }
     }
@@ -29,6 +33,19 @@ class MovieDetailViewController: UIViewController {
     private var name: String? {
         didSet {
             movieName.text = name?.uppercased()
+        }
+    }
+    
+    
+    private var originalLanguage: String? {
+        didSet {
+            movieOriginalLanguage.text = originalLanguage?.uppercased()
+        }
+    }
+    
+    private var releaseDate: String? {
+        didSet {
+            movieReleaseDate.text = releaseDate?.uppercased()
         }
     }
     
@@ -66,11 +83,47 @@ class MovieDetailViewController: UIViewController {
         return aLabel
     }()
     
+    private lazy var movieGenre: UILabel = {
+        let aLabel = UILabel()
+        aLabel.translatesAutoresizingMaskIntoConstraints = false
+        aLabel.textColor = .white
+        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.textAlignment = .center
+        return aLabel
+    }()
+    
+    private lazy var movieOriginalLanguage: UILabel = {
+        let aLabel = UILabel()
+        aLabel.translatesAutoresizingMaskIntoConstraints = false
+        aLabel.textColor = .white
+        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.textAlignment = .center
+        return aLabel
+    }()
+    
+    private lazy var moviePopularity: UILabel = {
+        let aLabel = UILabel()
+        aLabel.translatesAutoresizingMaskIntoConstraints = false
+        aLabel.textColor = .white
+        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.textAlignment = .center
+        return aLabel
+    }()
+    
+    private lazy var movieReleaseDate: UILabel = {
+        let aLabel = UILabel()
+        aLabel.translatesAutoresizingMaskIntoConstraints = false
+        aLabel.textColor = .white
+        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.textAlignment = .center
+        return aLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupConstraints()
-        self.viewModel = MovieDetailViewModel(movieUrl: movieUrl, service: service, delegate: self)
+        self.viewModel = MovieDetailViewModel(id: movieId, movieUrl: movieUrl, service: service, delegate: self)
         self.viewModel?.getMovie()
     }
     
@@ -79,6 +132,9 @@ class MovieDetailViewController: UIViewController {
         view.addSubview(movieBackground)
         view.addSubview(movieImage)
         view.addSubview(movieName)
+        view.addSubview(movieOriginalLanguage)
+        view.addSubview(moviePopularity)
+        view.addSubview(movieReleaseDate)
 
     }
     
@@ -93,7 +149,7 @@ class MovieDetailViewController: UIViewController {
             movieImage.heightAnchor.constraint(equalToConstant: 200),
             movieImage.widthAnchor.constraint(equalToConstant: 200),
             movieImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            movieImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            movieImage.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             
             movieName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             movieName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -102,8 +158,20 @@ class MovieDetailViewController: UIViewController {
             movieBackground.heightAnchor.constraint(equalToConstant: 200),
             movieBackground.widthAnchor.constraint(equalToConstant: 200),
             movieBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            movieBackground.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                
+            movieBackground.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+
+            
+            movieOriginalLanguage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            movieOriginalLanguage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            movieOriginalLanguage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 22),
+            
+            moviePopularity.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            moviePopularity.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            moviePopularity.topAnchor.constraint(equalTo: movieOriginalLanguage.bottomAnchor, constant: 22),
+            
+            movieReleaseDate.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            movieReleaseDate.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            movieReleaseDate.topAnchor.constraint(equalTo: moviePopularity.bottomAnchor, constant: 22),
         ])
     }
 
@@ -124,6 +192,9 @@ extension MovieDetailViewController: MovieDetailDelegate {
     func movieData(movie: MovieDetail) {
         name = movie.title
         imagen = movie.posterPath
+        originalLanguage = movie.originalLanguage
+        popularity = movie.popularity
+        releaseDate = movie.releaseDate
     }
     
     func showError() {

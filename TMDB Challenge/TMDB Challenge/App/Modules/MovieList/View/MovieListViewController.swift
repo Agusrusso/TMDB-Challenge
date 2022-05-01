@@ -69,7 +69,7 @@ extension MovieListViewController: MovieListDelegate {
     }
     
     func showError() {
-        print("LPM se rompio todo")
+        print("Se rompio todo")
     }
     
 }
@@ -80,7 +80,7 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailViewController = MovieDetailViewController()
         let movie = viewModel?.getMovie(at: indexPath.row)
-        detailViewController.movieUrl = movie?.url ?? ""
+        detailViewController.movieId = movie?.id ?? 0
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -93,7 +93,7 @@ extension MovieListViewController: UITableViewDataSource {
         }
         
         let movie = viewModel?.getMovie(at: indexPath.row)
-        cell.name = movie?.name.uppercased()
+        cell.name = movie?.title.uppercased()
         
         return cell
     }
