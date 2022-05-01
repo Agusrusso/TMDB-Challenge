@@ -35,7 +35,7 @@ class MovieDetailViewController: UIViewController {
             movieName.text = name?.uppercased()
         }
     }
-    
+        
     
     private var originalLanguage: String? {
         didSet {
@@ -52,13 +52,6 @@ class MovieDetailViewController: UIViewController {
     private var service = MovieDetailService()
     private var viewModel:MovieDetailViewModel?
 
-    private lazy var movieBackground: UIView = {
-        let aView = UIView()
-        aView.translatesAutoresizingMaskIntoConstraints = false
-        aView.layer.cornerRadius = 70
-        aView.backgroundColor = .white.withAlphaComponent(0.4)
-        return aView
-    }()
     
     private lazy var backgroudImage: UIImageView = {
         let aImage = UIImageView()
@@ -70,6 +63,9 @@ class MovieDetailViewController: UIViewController {
     
     private lazy var movieImage: UIImageView = {
         let aImage = UIImageView()
+        aImage.clipsToBounds = true
+        aImage.contentMode = .scaleAspectFill
+        aImage.layer.cornerRadius = 30
         aImage.translatesAutoresizingMaskIntoConstraints = false
         return aImage
     }()
@@ -78,25 +74,18 @@ class MovieDetailViewController: UIViewController {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
         aLabel.textColor = .white
-        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.font = UIFont.boldSystemFont(ofSize: 30)
         aLabel.textAlignment = .center
+        aLabel.numberOfLines = 0
         return aLabel
     }()
     
-    private lazy var movieGenre: UILabel = {
-        let aLabel = UILabel()
-        aLabel.translatesAutoresizingMaskIntoConstraints = false
-        aLabel.textColor = .white
-        aLabel.font = UIFont.systemFont(ofSize: 40)
-        aLabel.textAlignment = .center
-        return aLabel
-    }()
     
     private lazy var movieOriginalLanguage: UILabel = {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
         aLabel.textColor = .white
-        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.font = UIFont.systemFont(ofSize: 20)
         aLabel.textAlignment = .center
         return aLabel
     }()
@@ -105,7 +94,7 @@ class MovieDetailViewController: UIViewController {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
         aLabel.textColor = .white
-        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.font = UIFont.systemFont(ofSize: 20)
         aLabel.textAlignment = .center
         return aLabel
     }()
@@ -114,7 +103,7 @@ class MovieDetailViewController: UIViewController {
         let aLabel = UILabel()
         aLabel.translatesAutoresizingMaskIntoConstraints = false
         aLabel.textColor = .white
-        aLabel.font = UIFont.systemFont(ofSize: 40)
+        aLabel.font = UIFont.systemFont(ofSize: 20)
         aLabel.textAlignment = .center
         return aLabel
     }()
@@ -129,7 +118,6 @@ class MovieDetailViewController: UIViewController {
     
     private func setupView(){
         view.addSubview(backgroudImage)
-        view.addSubview(movieBackground)
         view.addSubview(movieImage)
         view.addSubview(movieName)
         view.addSubview(movieOriginalLanguage)
@@ -141,37 +129,35 @@ class MovieDetailViewController: UIViewController {
     private func setupConstraints(){
         NSLayoutConstraint.activate([
             
-            backgroudImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroudImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroudImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             backgroudImage.topAnchor.constraint(equalTo: view.topAnchor),
             
-            movieImage.heightAnchor.constraint(equalToConstant: 200),
-            movieImage.widthAnchor.constraint(equalToConstant: 200),
+            movieImage.heightAnchor.constraint(equalToConstant: 600),
+        //    movieImage.widthAnchor.constraint(equalToConstant: 200),
+            movieImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            movieImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             movieImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            movieImage.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            movieImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             
             movieName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             movieName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 22),
+            movieName.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 30),
             
-            movieBackground.heightAnchor.constraint(equalToConstant: 200),
-            movieBackground.widthAnchor.constraint(equalToConstant: 200),
-            movieBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            movieBackground.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-
-            
+  
             movieOriginalLanguage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             movieOriginalLanguage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             movieOriginalLanguage.topAnchor.constraint(equalTo: movieName.bottomAnchor, constant: 22),
-            
-            moviePopularity.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            moviePopularity.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            moviePopularity.topAnchor.constraint(equalTo: movieOriginalLanguage.bottomAnchor, constant: 22),
+
             
             movieReleaseDate.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             movieReleaseDate.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            movieReleaseDate.topAnchor.constraint(equalTo: moviePopularity.bottomAnchor, constant: 22),
+            movieReleaseDate.topAnchor.constraint(equalTo: movieOriginalLanguage.bottomAnchor, constant: 22),
+  
+            
+            moviePopularity.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            moviePopularity.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            moviePopularity.topAnchor.constraint(equalTo: movieReleaseDate.bottomAnchor, constant: 22),
         ])
     }
 
