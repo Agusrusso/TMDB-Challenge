@@ -133,8 +133,7 @@ class MovieDetailViewController: UIViewController {
             backgroudImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             backgroudImage.topAnchor.constraint(equalTo: view.topAnchor),
             
-            movieImage.heightAnchor.constraint(equalToConstant: 600),
-        //    movieImage.widthAnchor.constraint(equalToConstant: 200),
+            movieImage.heightAnchor.constraint(equalToConstant: round(UIScreen.main.bounds.height * 0.7)),
             movieImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             movieImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             movieImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
